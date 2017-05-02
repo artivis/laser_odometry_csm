@@ -1,0 +1,97 @@
+#!/usr/bin/env python
+from rosparam_handler.parameter_generator_catkin import *
+gen = ParameterGenerator()
+
+gen.add("kf_dist_angular", paramtype="double", default=0.174532925, min=0, max=6.28, configurable=True,
+        description="Maximum angular displacement between scans")
+
+gen.add("kf_dist_linear", paramtype="double", default=0.10, min=0, max=2, configurable=True,
+        description="Maximum angular displacement between scans")
+
+gen.add("max_angular_correction_deg", paramtype="double", default=45.0, min=0, max=360, configurable=True, description="todo")
+
+gen.add("max_linear_correction", paramtype="double", default=0.5, min=0, max=2, configurable=True,
+        description="Maximum translation between scans (m)")
+
+gen.add("max_iterations", paramtype="int", default=10, min=1, max=500, configurable=True,
+        description="Maximum ICP cycle iterations")
+
+gen.add("epsilon_xy", paramtype="double", default=0.000001, min=0, max=1, configurable=True,
+        description="A threshold for stopping (m)")
+
+gen.add("epsilon_theta", paramtype="double", default=0.000001, min=0, max=1, configurable=True,
+        description="A threshold for stopping (rad)")
+
+gen.add("max_correspondence_dist", paramtype="double", default=0.3, min=0, max=10, configurable=True,
+        description="Maximum distance for a correspondence to be valid")
+
+gen.add("sigma", paramtype="double", default=0.01, min=0, max=10, configurable=True,
+        description="Noise in the scan (m)")
+
+gen.add("use_corr_tricks", paramtype="int", default=1, min=0, max=1, configurable=True,
+        description="Use smart tricks for finding correspondences.")
+
+gen.add("restart", paramtype="int", default=1, min=0, max=1, configurable=True,
+        description="Restart: Restart if error is over threshold")
+
+gen.add("restart_threshold_mean_error", paramtype="double", default=0.01, min=0, max=10, configurable=True,
+        description="Restart: Threshold for restarting")
+
+gen.add("restart_dt", paramtype="double", default=1.0, min=0, max=10, configurable=True,
+        description="Restart: displacement for restarting. (m)")
+
+gen.add("restart_dtheta", paramtype="double", default=0.1, min=0, max=10, configurable=True,
+        description="Restart: displacement for restarting. (rad)")
+
+gen.add("clustering_threshold", paramtype="double", default=0.25, min=0, max=10, configurable=True,
+        description="Max distance for staying in the same clustering")
+
+gen.add("orientation_neighbourhood", paramtype="double", default=20, min=10, max=10000, configurable=True,
+        description="Number of neighbour rays used to estimate the orientation")
+
+gen.add("use_point_to_line_distance", paramtype="int", default=1, min=0, max=1, configurable=True,
+        description="If 0, its vanilla ICP")
+
+gen.add("do_alpha_test", paramtype="int", default=0, min=0, max=1, configurable=True,
+        description="Discard correspondences based on the angles")
+
+gen.add("do_alpha_test_thresholdDeg", paramtype="double", default=20.0, min=0, max=360,
+        configurable=True, description="Discard correspondences based on the angles - threshold angle, in degrees")
+
+gen.add("outliers_maxPerc", paramtype="double", default=0.9, min=0, max=1, configurable=True,
+        description="Percentage of correspondences to consider: if 0.9, always discard the top 10% of correspondences with more error")
+
+gen.add("outliers_adaptive_order", paramtype="double", default=0.7, min=0, max=1, configurable=True,
+        description="Parameters describing a simple adaptive algorithm for discarding. "
+        "1) Order the errors. 2) Choose the percentile according to outliers_adaptive_order. "
+        "(if it is 0.7, get the 70% percentile) "
+        "3) Define an adaptive threshold multiplying outliers_adaptive_mult with the value of the error at the chosen percentile. "
+        "4) Discard correspondences over the threshold. This is useful to be conservative; yet remove the biggest errors.")
+
+gen.add("outliers_adaptive_mult", paramtype="double", default=2.0, min=0, max=100, configurable=True,
+        description="TODO")
+
+gen.add("do_visibility_test", paramtype="int", default=0, min=0, max=1, configurable=True,
+        description="If you already have a guess of the solution, you can compute the polar angle "
+        "of the points of one scan in the new position. If the polar angle is not a monotone "
+        "function of the readings index, it means that the surface is not visible in the "
+        "next position. If it is not visible, then we dont use it for matching.")
+
+gen.add("outliers_remove_doubles", paramtype="int", default=1, min=0, max=1, configurable=True,
+        description="no two points in laser_sens can have the same corr.")
+
+gen.add("do_compute_covariance", paramtype="int", default=1, min=0, max=1, configurable=True,
+        description="If 1, computes the covariance of ICP using the method http://purl.org/censi/2006/icpcov")
+
+gen.add("debug_verify_tricks", paramtype="int", default=0, min=0, max=1, configurable=True,
+        description="Checks that find_correspondences_tricks gives the right answer")
+
+gen.add("use_ml_weights", paramtype="int", default=0, min=0, max=1, configurable=True,
+        description="If 1, the field true_alpha (or alpha) in the first scan is used to compute the "
+        "incidence beta, and the factor (1/cos^2(beta)) used to weight the correspondence.")
+
+gen.add("use_sigma_weights", paramtype="int", default=0, min=0, max=1, configurable=True,
+        description="If 1, the field readings_sigma in the second scan is used to weight the "
+        "correspondence by 1/sigma^2")
+
+exit(gen.generate("laser_odometry_csm", "LaserOdometryCsm", "LaserOdometryCsm"))

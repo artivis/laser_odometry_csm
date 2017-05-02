@@ -1,0 +1,10 @@
+<library path="lib/liblaser_odometry_csm">
+
+  <class type="laser_odometry::LaserOdometryCsm" base_class_type="laser_odometry::LaserOdometryBase">
+   <description>
+   This is a rectangle plugin (Hello World !)
+   </description>
+  </class>
+  
+</library>
+

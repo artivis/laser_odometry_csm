@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>laser_odometry_csm</name>
+  <version>0.0.0</version>
+  <description>
+    The laser_odometry_csm package is a wrapper (a plugin)
+    to use C(canonical) Scan Matcher (csm) in the
+    laser_odometry package.
+  </description>
+
+  <author email="jeremie.deray@pal-robotics.com">Jeremie Deray</author>
+  <maintainer email="jeremie.deray@pal-robotics.com">Jeremie Deray</maintainer>
+
+  <!-- this package license -->
+  <license>TODO</license>
+
+  <!-- csm license -->
+  <license>LGPL-3.0</license>
+  <url type="website">https://github.com/AndreaCensi/csm</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>csm</depend>
+  <depend>laser_odometry_core</depend>
+  <depend>rosparam_handler</depend>
+  <depend>dynamic_reconfigure</depend>
+
+  <export>
+    <laser_odometry_core plugin="${prefix}/laser_odometry_plugins.xml" />
+  </export>
+</package>
