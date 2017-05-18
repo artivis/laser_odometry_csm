@@ -3,29 +3,20 @@
   <!-- The laser odometry plugin type. -->
   <arg name="laser_odometry_type" default="laser_odometry::LaserOdometryCsm"/>
 
-  <!-- A config file for the laser odometry plugin. -->
+  <!-- The input topic. -->
+  <arg name="topic_in" default="/scan"/>
+
+  <!-- A config file for the laser odometry node. -->
   <arg name="node_config_file" default="$(find laser_odometry)/config/laser_odometry_node_default.yaml"/>
+
+  <!-- A config file for the laser odometry plugin. -->
   <!--<arg name="plugin_config_file" default="$(find laser_odometry_csm)/config/laser_odometry_csm_default.yaml"/>-->
 
-  <!-- Whether or not to broadcast the estimated odometry on tf. -->
-  <arg name="broadcast_tf" default="False"/>
-
-  <!-- Whether or not the retrieve the origin pose from tf. -->
-  <arg name="init_origin" default="False"/>
-
-  <!-- Whether to use a nav_msgs/Odometry message or a geometry_msgs/Pose2D message. -->
-  <arg name="publish_odom" default="True"/>
-
-  <arg name="topic_in" default="/scan"/>
 
   <node pkg="laser_odometry" type="laser_odometry_node" name="laser_odometry_node" output="screen">
     <param name="laser_odometry_type" value="$(arg laser_odometry_type)" />
-    <rosparam file="$(arg node_config_file)" command="load"              />
-    <!--<rosparam file="$(arg plugin_config_file)" command="load"            />-->
-    <param name="broadcast_tf" value="$(arg broadcast_tf)"               />
-    <param name="init_origin"  value="$(arg init_origin)"                />
-    <param name="publish_odom" value="$(arg publish_odom)"               />
-    <remap from="~scan_in"     to="$(arg topic_in)"                      />
+    <rosparam file="$(arg node_config_file)" command="load" />
+    <remap from="~topic_in" to="$(arg topic_in)" />
   </node>
 
 </launch>
