@@ -51,8 +51,6 @@ bool LaserOdometryCsm::configureImpl()
 
   ROS_INFO_STREAM("LaserOdometryCsm parameters:\n" << *params_ptr_);
 
-  world_to_base_kf_ = tf::Transform::getIdentity();
-
   updateLaserPose();
 
   output_.cov_x_m  = 0;
