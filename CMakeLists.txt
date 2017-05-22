@@ -21,7 +21,7 @@ else()
 endif()
 
 find_package(catkin REQUIRED COMPONENTS
-    laser_odometry_core rosparam_handler dynamic_reconfigure
+    roscpp laser_odometry_core rosparam_handler dynamic_reconfigure
 )
 
 generate_ros_parameter_files(
@@ -65,6 +65,11 @@ install(DIRECTORY include/${PROJECT_NAME}/
     DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
 
+install(FILES laser_odometry_plugins.xml
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+install(DIRECTORY launch #cfg
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 ################
 ##    Test    ##
 ################
