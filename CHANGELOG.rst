@@ -2,8 +2,8 @@
 Changelog for package laser_odometry_csm
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.1 (2017-05-23)
+------------------
 * Merge pull request `#1 <https://github.com/artivis/laser_odometry_csm/issues/1>`_ from artivis/license
   Create LICENSE
 * update pkg.xml license
