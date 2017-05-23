@@ -20,11 +20,11 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>roscpp</depend>
   <depend>csm</depend>
-  <depend>laser_odometry_core</depend>
-  <depend>rosparam_handler</depend>
   <depend>dynamic_reconfigure</depend>
+  <depend>laser_odometry_core</depend>
+  <depend>roscpp</depend>
+  <depend>rosparam_handler</depend>
 
   <export>
     <laser_odometry_core plugin="${prefix}/laser_odometry_plugins.xml" />
