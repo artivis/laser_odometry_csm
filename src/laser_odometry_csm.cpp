@@ -192,12 +192,12 @@ bool LaserOdometryCsm::initialize(const sensor_msgs::LaserScanConstPtr& scan_msg
   return true;
 }
 
-bool LaserOdometryCsm::isKeyFrame(const tf::Transform& tf)
+bool LaserOdometryCsm::isKeyFrame(const tf::Transform& correction)
 {
-  if (fabs(tf::getYaw(tf.getRotation())) > kf_dist_angular_) return true;
+  if (fabs(tf::getYaw(correction.getRotation())) > kf_dist_angular_) return true;
 
-  double x = tf.getOrigin().getX();
-  double y = tf.getOrigin().getY();
+  double x = correction.getOrigin().getX();
+  double y = correction.getOrigin().getY();
 
   if (x*x + y*y > kf_dist_linear_sq_) return true;
 
