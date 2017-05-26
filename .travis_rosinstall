@@ -1,0 +1,2 @@
+- git: {local-name: rosparam_handler, uri: https://github.com/cbandera/rosparam_handler, version: master}
+- git: {local-name: laser_odometry, uri: https://github.com/artivis/laser_odometry, version: indigo-devel}
