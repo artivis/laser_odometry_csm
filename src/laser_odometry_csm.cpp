@@ -108,12 +108,19 @@ bool LaserOdometryCsm::process_impl(const sensor_msgs::LaserScanConstPtr& laser_
 
   if (output_.valid)
   {
-    // the correction of the laser's position, in the laser frame
-    utils::tfFromXYTheta(output_.x[0], output_.x[1], output_.x[2], correction_);
+    // the increment of the laser's position, in the laser frame
+    utils::tfFromXYTheta(output_.x[0], output_.x[1], output_.x[2], increment_);
+
+    if (input_.do_compute_covariance)
+    {
+      increment_covariance_[0]  = gsl_matrix_get(output_.cov_x_m, 0, 0);
+      increment_covariance_[7]  = gsl_matrix_get(output_.cov_x_m, 0, 1);
+      increment_covariance_[35] = gsl_matrix_get(output_.cov_x_m, 0, 2);
+    }
   }
   else
   {
-    correction_.setIdentity();
+    increment_.setIdentity();
     ROS_WARN("Error in scan matching");
   }
 
@@ -192,12 +199,12 @@ bool LaserOdometryCsm::initialize(const sensor_msgs::LaserScanConstPtr& scan_msg
   return true;
 }
 
-bool LaserOdometryCsm::isKeyFrame(const tf::Transform& correction)
+bool LaserOdometryCsm::isKeyFrame(const tf::Transform& increment)
 {
-  if (fabs(tf::getYaw(correction.getRotation())) > kf_dist_angular_) return true;
+  if (fabs(tf::getYaw(increment.getRotation())) > kf_dist_angular_) return true;
 
-  double x = correction.getOrigin().getX();
-  double y = correction.getOrigin().getY();
+  double x = increment.getOrigin().getX();
+  double y = increment.getOrigin().getY();
 
   if (x*x + y*y > kf_dist_linear_sq_) return true;
 

@@ -62,7 +62,7 @@ namespace laser_odometry
 
     void updateLaserPose();
 
-    bool isKeyFrame(const tf::Transform& correction) override;
+    bool isKeyFrame(const tf::Transform& increment) override;
     void isKeyFrame() override;
     void isNotKeyFrame() override;
   };
