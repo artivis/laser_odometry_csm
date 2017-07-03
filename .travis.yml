@@ -16,9 +16,9 @@ notifications:
       - jeremie.deray@pal-robotics.com
 env:
   matrix:
-    - ROS_DISTRO="indigo"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu              USE_DEB=false UPSTREAM_WORKSPACE=file $ROSINSTALL_FILENAME=".travis_rosinstall" #NOT_TEST_BUILD=true NOT_TEST_INSTALL=true
-    - ROS_DISTRO="indigo"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros-shadow-fixed/ubuntu USE_DEB=false UPSTREAM_WORKSPACE=file $ROSINSTALL_FILENAME=".travis_rosinstall" #NOT_TEST_BUILD=true NOT_TEST_INSTALL=true
-    # - ROS_DISTRO="indigo"   PRERELEASE=true                                                     USE_DEB=false UPSTREAM_WORKSPACE=file $ROSINSTALL_FILENAME=".travis_rosinstall"
+    - ROS_DISTRO="indigo"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu              #NOT_TEST_BUILD=true NOT_TEST_INSTALL=true
+    - ROS_DISTRO="indigo"   ROS_REPOSITORY_PATH=http://packages.ros.org/ros-shadow-fixed/ubuntu #NOT_TEST_BUILD=true NOT_TEST_INSTALL=true
+    # - ROS_DISTRO="indigo"   PRERELEASE=true
     - ROS_DISTRO="jade"     ROS_REPOSITORY_PATH=http://packages.ros.org/ros/ubuntu              USE_DEB=false UPSTREAM_WORKSPACE=file $ROSINSTALL_FILENAME=".travis_rosinstall" #NOT_TEST_BUILD=true NOT_TEST_INSTALL=true
     - ROS_DISTRO="jade"     ROS_REPOSITORY_PATH=http://packages.ros.org/ros-shadow-fixed/ubuntu USE_DEB=false UPSTREAM_WORKSPACE=file $ROSINSTALL_FILENAME=".travis_rosinstall" #NOT_TEST_BUILD=true NOT_TEST_INSTALL=true
     # - ROS_DISTRO="jade"     PRERELEASE=true
