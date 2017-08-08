@@ -61,7 +61,7 @@ bool LaserOdometryCsm::configureImpl()
 }
 
 bool LaserOdometryCsm::process_impl(const sensor_msgs::LaserScanConstPtr& laser_msg,
-                                    const tf::Transform& prediction)
+                                    const Transform& prediction)
 {
   convert(laser_msg, current_ldp_scan_);
 
@@ -77,9 +77,9 @@ bool LaserOdometryCsm::process_impl(const sensor_msgs::LaserScanConstPtr& laser_
   prev_scan_->true_pose[1] = 0.0;
   prev_scan_->true_pose[2] = 0.0;
 
-  input_.first_guess[0] = prediction.getOrigin().getX();
-  input_.first_guess[1] = prediction.getOrigin().getY();
-  input_.first_guess[2] = tf::getYaw(prediction.getRotation());
+  input_.first_guess[0] = prediction.translation()(0);
+  input_.first_guess[1] = prediction.translation()(1);
+  input_.first_guess[2] = getYaw(prediction.rotation());
 
   input_.laser_ref  = prev_scan_;
   input_.laser_sens = current_ldp_scan_;
@@ -113,14 +113,14 @@ bool LaserOdometryCsm::process_impl(const sensor_msgs::LaserScanConstPtr& laser_
 
     if (input_.do_compute_covariance)
     {
-      increment_covariance_[0]  = gsl_matrix_get(output_.cov_x_m, 0, 0);
-      increment_covariance_[7]  = gsl_matrix_get(output_.cov_x_m, 0, 1);
-      increment_covariance_[35] = gsl_matrix_get(output_.cov_x_m, 0, 2);
+      increment_covariance_(0,0) = gsl_matrix_get(output_.cov_x_m, 0, 0);
+      increment_covariance_(1,1) = gsl_matrix_get(output_.cov_x_m, 0, 1);
+      increment_covariance_(5,5) = gsl_matrix_get(output_.cov_x_m, 0, 2);
     }
   }
   else
   {
-    increment_.setIdentity();
+    increment_.Identity();
     ROS_WARN("Error in scan matching");
   }
 
@@ -135,7 +135,7 @@ void LaserOdometryCsm::convert(const sensor_msgs::LaserScanConstPtr& scan_msg,
 
   if (n != theta_.size()) cache(scan_msg);
 
-  for (unsigned int i = 0; i < n; i++)
+  for (unsigned int i = 0; i < n; ++i)
   {
     // calculate position in laser frame
     double r = scan_msg->ranges[i];
@@ -176,22 +176,12 @@ void LaserOdometryCsm::cache(const sensor_msgs::LaserScanConstPtr& scan_msg)
 
   theta_.resize(n);
 
-  for (unsigned int i = 0; i < n; i++)
+  for (unsigned int i = 0; i < n; ++i)
     theta_[i] = scan_msg->angle_min + i * scan_msg->angle_increment;
 }
 
 bool LaserOdometryCsm::initialize(const sensor_msgs::LaserScanConstPtr& scan_msg)
 {
-  //a_cos_.clear(); a_cos_.reserve(scan_msg.ranges.size());
-  //a_sin_.clear(); a_sin_.reserve(scan_msg.ranges.size());
-
-  //for (unsigned int i = 0; i < scan_msg.ranges.size(); ++i)
-  //{
-    //double angle = scan_msg.angle_min + i * scan_msg.angle_increment;
-    //a_cos_.push_back(cos(angle));
-    //a_sin_.push_back(sin(angle));
-  //}
-
   cache(scan_msg);
 
   convert(scan_msg, prev_scan_);
@@ -199,14 +189,11 @@ bool LaserOdometryCsm::initialize(const sensor_msgs::LaserScanConstPtr& scan_msg
   return true;
 }
 
-bool LaserOdometryCsm::isKeyFrame(const tf::Transform& increment)
+bool LaserOdometryCsm::isKeyFrame(const Transform& increment)
 {
-  if (fabs(tf::getYaw(increment.getRotation())) > kf_dist_angular_) return true;
+  if (std::fabs(getYaw(increment.rotation())) > kf_dist_angular_) return true;
 
-  double x = increment.getOrigin().getX();
-  double y = increment.getOrigin().getY();
-
-  if (x*x + y*y > kf_dist_linear_sq_) return true;
+  if (increment.translation().head<2>().squaredNorm() > kf_dist_linear_sq_) return true;
 
   return false;
 }
@@ -224,13 +211,9 @@ void LaserOdometryCsm::isNotKeyFrame()
 
 void LaserOdometryCsm::updateLaserPose()
 {
-  input_.laser[0] = base_to_laser_.getOrigin().getX();
-  input_.laser[1] = base_to_laser_.getOrigin().getY();
-  input_.laser[2] = tf::getYaw(base_to_laser_.getRotation());
-
-  //  input_.laser[0] = laser_to_base_.getOrigin().getX();
-  //  input_.laser[1] = laser_to_base_.getOrigin().getY();
-  //  input_.laser[2] = tf::getYaw(laser_to_base_.getRotation());
+  input_.laser[0] = base_to_laser_.translation()(0);
+  input_.laser[1] = base_to_laser_.translation()(1);
+  input_.laser[2] = getYaw(base_to_laser_.rotation());
 }
 
 } /* namespace laser_odometry */
