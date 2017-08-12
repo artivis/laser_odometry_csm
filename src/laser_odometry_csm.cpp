@@ -79,7 +79,7 @@ bool LaserOdometryCsm::process_impl(const sensor_msgs::LaserScanConstPtr& laser_
 
   input_.first_guess[0] = prediction.translation()(0);
   input_.first_guess[1] = prediction.translation()(1);
-  input_.first_guess[2] = getYaw(prediction.rotation());
+  input_.first_guess[2] = utils::getYaw(prediction.rotation());
 
   input_.laser_ref  = prev_scan_;
   input_.laser_sens = current_ldp_scan_;
@@ -138,7 +138,7 @@ void LaserOdometryCsm::convert(const sensor_msgs::LaserScanConstPtr& scan_msg,
   for (unsigned int i = 0; i < n; ++i)
   {
     // calculate position in laser frame
-    double r = scan_msg->ranges[i];
+    const double r = scan_msg->ranges[i];
 
     if (r > input_.min_reading && r < input_.max_reading)
     {
@@ -156,7 +156,7 @@ void LaserOdometryCsm::convert(const sensor_msgs::LaserScanConstPtr& scan_msg,
   }
 
   ldp_scan->min_theta = *theta_.begin();
-  ldp_scan->max_theta = theta_.back();
+  ldp_scan->max_theta =  theta_.back();
 
   ldp_scan->odometry[0] = 0.0;
   ldp_scan->odometry[1] = 0.0;
@@ -191,7 +191,7 @@ bool LaserOdometryCsm::initialize(const sensor_msgs::LaserScanConstPtr& scan_msg
 
 bool LaserOdometryCsm::isKeyFrame(const Transform& increment)
 {
-  if (std::fabs(getYaw(increment.rotation())) > kf_dist_angular_) return true;
+  if (std::fabs(utils::getYaw(increment.rotation())) > kf_dist_angular_) return true;
 
   if (increment.translation().head<2>().squaredNorm() > kf_dist_linear_sq_) return true;
 
@@ -213,7 +213,7 @@ void LaserOdometryCsm::updateLaserPose()
 {
   input_.laser[0] = base_to_laser_.translation()(0);
   input_.laser[1] = base_to_laser_.translation()(1);
-  input_.laser[2] = getYaw(base_to_laser_.rotation());
+  input_.laser[2] = utils::getYaw(base_to_laser_.rotation());
 }
 
 } /* namespace laser_odometry */
