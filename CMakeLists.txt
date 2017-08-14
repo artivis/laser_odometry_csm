@@ -1,8 +1,16 @@
-cmake_minimum_required(VERSION 3.2.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
 project(laser_odometry_csm)
 
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+if(COMPILER_SUPPORTS_CXX11)
+  message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has C++11 support.")
+else()
+  message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
 find_package(catkin REQUIRED COMPONENTS
-    dynamic_reconfigure laser_odometry_core roscpp rosparam_handler
+  dynamic_reconfigure laser_odometry_core roscpp rosparam_handler
 )
 
 # Find csm project
@@ -22,7 +30,7 @@ catkin_package(
 
 include_directories(include)
 include_directories(SYSTEM ${catkin_INCLUDE_DIRS} ${csm_INCLUDE_DIRS})
-link_directories(${csm_LIBRARY_DIRS})
+link_directories(SYSTEM ${csm_LIBRARY_DIRS})
 
 ###############
 ##   Build   ##
@@ -35,9 +43,13 @@ add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_gencfg) # For dynamic_reconfigu
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}_genparam) # For rosparam_handler
 
 #Require C++11
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)
+if(CMAKE_VERSION VERSION_LESS "3.1")
+  set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-std=c++11")
+else()
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD_REQUIRED ON)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_EXTENSIONS OFF)
+endif()
 
 ################
 ##  Install   ##
