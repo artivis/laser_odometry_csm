@@ -30,7 +30,7 @@ namespace laser_odometry
   protected:
 
     bool process_impl(const sensor_msgs::LaserScanConstPtr& laser_msg,
-                      const tf::Transform& prediction) override;
+                      const Transform& prediction) override;
 
   protected:
 
@@ -62,7 +62,7 @@ namespace laser_odometry
 
     void updateLaserPose();
 
-    bool isKeyFrame(const tf::Transform& increment) override;
+    bool isKeyFrame(const Transform& increment) override;
     void isKeyFrame() override;
     void isNotKeyFrame() override;
   };
