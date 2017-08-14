@@ -3,8 +3,6 @@
 #include <laser_odometry_core/laser_odometry_utils.h>
 #include <laser_odometry_csm/laser_odometry_csm.h>
 
-#include <boost/assign/list_of.hpp>
-
 namespace laser_odometry {
 
 OdomType LaserOdometryCsm::odomType() const noexcept
