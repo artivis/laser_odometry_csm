@@ -58,8 +58,8 @@ bool LaserOdometryCsm::configureImpl()
   return true;
 }
 
-bool LaserOdometryCsm::process_impl(const sensor_msgs::LaserScanConstPtr& laser_msg,
-                                    const Transform& prediction)
+bool LaserOdometryCsm::processImpl(const sensor_msgs::LaserScanConstPtr& laser_msg,
+                                   const Transform& prediction)
 {
   convert(laser_msg, current_ldp_scan_);
 

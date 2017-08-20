@@ -29,8 +29,8 @@ namespace laser_odometry
 
   protected:
 
-    bool process_impl(const sensor_msgs::LaserScanConstPtr& laser_msg,
-                      const Transform& prediction) override;
+    bool processImpl(const sensor_msgs::LaserScanConstPtr& laser_msg,
+                     const Transform& prediction) override;
 
   protected:
 
