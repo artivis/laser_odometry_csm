@@ -1,7 +1,7 @@
 <launch>
 
-  <!-- The laser odometry plugin type. -->
-  <arg name="laser_odometry_type" default="laser_odometry::LaserOdometryCsm"/>
+  <!-- Launch node through valgrind/gdb. -->
+  <arg name="debug" default="false"/>
 
   <!-- The input topic. -->
   <arg name="topic_in" default="/scan"/>
@@ -10,13 +10,13 @@
   <arg name="node_config_file" default="$(find laser_odometry_node)/config/laser_odometry_node_default.yaml"/>
 
   <!-- A config file for the laser odometry plugin. -->
-  <!--<arg name="plugin_config_file" default="$(find laser_odometry_csm)/config/laser_odometry_csm_default.yaml"/>-->
+  <!--<arg name="plugin_config_file" default="$(find laser_odometry_csm)/config/laser_odometry_rf2o_default.yaml"/>-->
 
-
-  <node pkg="laser_odometry_node" type="laser_odometry_node" name="laser_odometry_node" output="screen">
-    <param name="laser_odometry_type" value="$(arg laser_odometry_type)" />
-    <rosparam file="$(arg node_config_file)" command="load" />
-    <remap from="~topic_in" to="$(arg topic_in)" />
-  </node>
+  <include file="$(find laser_odometry_node)/launch/laser_odometry.launch">
+    <arg name="debug" value="$(arg debug)"/>
+    <arg name="laser_odometry_type" value="laser_odometry::LaserOdometryCsm"/>
+    <arg name="node_config_file" value="$(arg node_config_file)"/>
+    <arg name="topic_in" value="$(arg topic_in)" />
+  </include>
 
 </launch>
