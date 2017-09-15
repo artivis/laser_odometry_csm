@@ -1,0 +1,169 @@
+### This file was generated using the rosparam_handler generate_yaml script.
+
+# Name:	kf_dist_angular
+# Desc:	Maximum angular displacement between scans
+# Type:	double
+# [min,max]:	[0/6.28]
+kf_dist_angular = 0.174532925
+
+# Name:	kf_dist_linear
+# Desc:	Maximum angular displacement between scans
+# Type:	double
+# [min,max]:	[0/2]
+kf_dist_linear = 0.1
+
+# Name:	max_angular_correction_deg
+# Desc:	todo
+# Type:	double
+# [min,max]:	[0/360]
+max_angular_correction_deg = 45.0
+
+# Name:	max_linear_correction
+# Desc:	Maximum translation between scans (m)
+# Type:	double
+# [min,max]:	[0/2]
+max_linear_correction = 0.5
+
+# Name:	max_iterations
+# Desc:	Maximum ICP cycle iterations
+# Type:	int
+# [min,max]:	[1/500]
+max_iterations = 10
+
+# Name:	epsilon_xy
+# Desc:	A threshold for stopping (m)
+# Type:	double
+# [min,max]:	[0/1]
+epsilon_xy = 1e-06
+
+# Name:	epsilon_theta
+# Desc:	A threshold for stopping (rad)
+# Type:	double
+# [min,max]:	[0/1]
+epsilon_theta = 1e-06
+
+# Name:	max_correspondence_dist
+# Desc:	Maximum distance for a correspondence to be valid
+# Type:	double
+# [min,max]:	[0/10]
+max_correspondence_dist = 0.3
+
+# Name:	sigma
+# Desc:	Noise in the scan (m)
+# Type:	double
+# [min,max]:	[0/10]
+sigma = 0.01
+
+# Name:	use_corr_tricks
+# Desc:	Use smart tricks for finding correspondences.
+# Type:	int
+# [min,max]:	[0/1]
+use_corr_tricks = 1
+
+# Name:	restart
+# Desc:	Restart: Restart if error is over threshold
+# Type:	int
+# [min,max]:	[0/1]
+restart = 1
+
+# Name:	restart_threshold_mean_error
+# Desc:	Restart: Threshold for restarting
+# Type:	double
+# [min,max]:	[0/10]
+restart_threshold_mean_error = 0.01
+
+# Name:	restart_dt
+# Desc:	Restart: displacement for restarting. (m)
+# Type:	double
+# [min,max]:	[0/10]
+restart_dt = 1.0
+
+# Name:	restart_dtheta
+# Desc:	Restart: displacement for restarting. (rad)
+# Type:	double
+# [min,max]:	[0/10]
+restart_dtheta = 0.1
+
+# Name:	clustering_threshold
+# Desc:	Max distance for staying in the same clustering
+# Type:	double
+# [min,max]:	[0/10]
+clustering_threshold = 0.25
+
+# Name:	orientation_neighbourhood
+# Desc:	Number of neighbour rays used to estimate the orientation
+# Type:	double
+# [min,max]:	[10/10000]
+orientation_neighbourhood = 20
+
+# Name:	use_point_to_line_distance
+# Desc:	If 0, its vanilla ICP
+# Type:	int
+# [min,max]:	[0/1]
+use_point_to_line_distance = 1
+
+# Name:	do_alpha_test
+# Desc:	Discard correspondences based on the angles
+# Type:	int
+# [min,max]:	[0/1]
+do_alpha_test = 0
+
+# Name:	do_alpha_test_thresholdDeg
+# Desc:	Discard correspondences based on the angles - threshold angle, in degrees
+# Type:	double
+# [min,max]:	[0/360]
+do_alpha_test_thresholdDeg = 20.0
+
+# Name:	outliers_maxPerc
+# Desc:	Percentage of correspondences to consider: if 0.9, always discard the top 10% of correspondences with more error
+# Type:	double
+# [min,max]:	[0/1]
+outliers_maxPerc = 0.9
+
+# Name:	outliers_adaptive_order
+# Desc:	Parameters describing a simple adaptive algorithm for discarding. 1) Order the errors. 2) Choose the percentile according to outliers_adaptive_order. (if it is 0.7, get the 70% percentile) 3) Define an adaptive threshold multiplying outliers_adaptive_mult with the value of the error at the chosen percentile. 4) Discard correspondences over the threshold. This is useful to be conservative; yet remove the biggest errors.
+# Type:	double
+# [min,max]:	[0/1]
+outliers_adaptive_order = 0.7
+
+# Name:	outliers_adaptive_mult
+# Desc:	TODO
+# Type:	double
+# [min,max]:	[0/100]
+outliers_adaptive_mult = 2.0
+
+# Name:	do_visibility_test
+# Desc:	If you already have a guess of the solution, you can compute the polar angle of the points of one scan in the new position. If the polar angle is not a monotone function of the readings index, it means that the surface is not visible in the next position. If it is not visible, then we dont use it for matching.
+# Type:	int
+# [min,max]:	[0/1]
+do_visibility_test = 0
+
+# Name:	outliers_remove_doubles
+# Desc:	no two points in laser_sens can have the same corr.
+# Type:	int
+# [min,max]:	[0/1]
+outliers_remove_doubles = 1
+
+# Name:	do_compute_covariance
+# Desc:	If 1, computes the covariance of ICP using the method http://purl.org/censi/2006/icpcov
+# Type:	int
+# [min,max]:	[0/1]
+do_compute_covariance = 1
+
+# Name:	debug_verify_tricks
+# Desc:	Checks that find_correspondences_tricks gives the right answer
+# Type:	int
+# [min,max]:	[0/1]
+debug_verify_tricks = 0
+
+# Name:	use_ml_weights
+# Desc:	If 1, the field true_alpha (or alpha) in the first scan is used to compute the incidence beta, and the factor (1/cos^2(beta)) used to weight the correspondence.
+# Type:	int
+# [min,max]:	[0/1]
+use_ml_weights = 0
+
+# Name:	use_sigma_weights
+# Desc:	If 1, the field readings_sigma in the second scan is used to weight the correspondence by 1/sigma^2
+# Type:	int
+# [min,max]:	[0/1]
+use_sigma_weights = 0
