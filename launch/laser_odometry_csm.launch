@@ -10,12 +10,13 @@
   <arg name="node_config_file" default="$(find laser_odometry_node)/config/laser_odometry_node_default.yaml"/>
 
   <!-- A config file for the laser odometry plugin. -->
-  <!--<arg name="plugin_config_file" default="$(find laser_odometry_csm)/config/laser_odometry_rf2o_default.yaml"/>-->
+  <arg name="plugin_config_file" default="$(find laser_odometry_csm)/cfg/LaserOdometryCsmParameters.yaml"/>
 
   <include file="$(find laser_odometry_node)/launch/laser_odometry.launch">
     <arg name="debug" value="$(arg debug)"/>
     <arg name="laser_odometry_type" value="laser_odometry::LaserOdometryCsm"/>
     <arg name="node_config_file" value="$(arg node_config_file)"/>
+    <arg name="plugin_config_file" value="$(arg plugin_config_file)"/>
     <arg name="topic_in" value="$(arg topic_in)" />
   </include>
 
