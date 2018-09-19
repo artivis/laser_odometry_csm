@@ -136,9 +136,11 @@ void LaserOdometryCsm::convert(const sensor_msgs::LaserScanConstPtr& scan_msg,
   for (unsigned int i = 0; i < n; ++i)
   {
     // calculate position in laser frame
-    const double r = scan_msg->ranges[i];
+    const double& r = scan_msg->ranges[i];
 
-    if (r > input_.min_reading && r < input_.max_reading)
+    if (std::isfinite(r) &&
+        r > input_.min_reading &&
+        r < input_.max_reading)
     {
       ldp_scan->valid[i]    = 1;
       ldp_scan->readings[i] = r;
@@ -209,9 +211,9 @@ void LaserOdometryCsm::isNotKeyFrame()
 
 void LaserOdometryCsm::updateLaserPose()
 {
-  input_.laser[0] = base_to_laser_.translation()(0);
-  input_.laser[1] = base_to_laser_.translation()(1);
-  input_.laser[2] = utils::getYaw(base_to_laser_.rotation());
+  input_.laser[0] = b_T_l_.translation()(0);
+  input_.laser[1] = b_T_l_.translation()(1);
+  input_.laser[2] = utils::getYaw(b_T_l_.rotation());
 }
 
 } /* namespace laser_odometry */
